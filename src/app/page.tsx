@@ -45,7 +45,7 @@ export default function Home() {
   return (
     <main>
       <div className="flex justify-between content-center mx-16 mt-4 h-16 items-center">
-        <h1 className="font-bold text-lg">Rick and Morty Characters</h1>
+        <h1 className="font-bold text-sm md:text-md lg:text-lg">Rick and Morty Characters</h1>
         <div className="flex content-center gap-8">
           <Button variant="link" asChild>
             <Link
