@@ -18,6 +18,7 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import { SunIcon, MoonIcon } from "@radix-ui/react-icons";
 import { useTheme } from "next-themes";
+import { toast } from "@/components/ui/use-toast";
 
 async function getCharacter(id: number) {
   const res = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
@@ -54,17 +55,25 @@ export default function CharacterPage({ params }: { params: { id: number } }) {
       temp = JSON.parse(locationsArray);
     }
 
+    for (const key in temp) {
+      temp[key] = temp[key].filter((char) => char.id !== character.id);
+      if (temp[key].length === 0) {
+        delete temp[key];
+      }
+    }
+
     if (!Array.isArray(temp[location])) {
       temp[location] = [];
     }
 
-    const existingCharacter = temp[location].find((char) => char.id === character.id);
-
-    if (!existingCharacter) {
-      temp[location].push(character);
-    }
+    temp[location].push(character);
 
     localStorage.setItem("locations", JSON.stringify(temp));
+
+    toast({
+      title: "Character added to location",
+      description: `${character.name} is added to ${location}`,
+    })
   }
 
   return (
@@ -109,7 +118,9 @@ export default function CharacterPage({ params }: { params: { id: number } }) {
             <div className="ms-16">
               <div className="flex flex-col items-start">
                 <h2 className="text-2xl font-semibold">{character?.name}</h2>
-                <p className="text-gray-500 dark:text-gray-200  mt-4 mb-1">Status</p>
+                <p className="text-gray-500 dark:text-gray-200  mt-4 mb-1">
+                  Status
+                </p>
                 <Badge
                   className={
                     character?.status === "Alive"
@@ -124,7 +135,7 @@ export default function CharacterPage({ params }: { params: { id: number } }) {
 
                 <p className="text-gray-500 dark:text-gray-200 mt-4">Gender</p>
                 <p className="font-semibold">{character?.gender}</p>
-              
+
                 <p className="text-gray-500 dark:text-gray-200 mt-4">
                   First seen in
                 </p>

@@ -63,36 +63,42 @@ const LocationPage: React.FC = () => {
         </DropdownMenu>
       </div>
       <div className="m-4 mx-16">
-        {Object.keys(localLocation).map((key) => (
-          <div key={key}>
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="item-1">
-                <AccordionTrigger>{key}</AccordionTrigger>
-                <AccordionContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-stretch gap-4 m-4">
-                    {localLocation[key].map((character: CharacterObject) => (
-                      <CharacterCard
-                        key={character.id}
-                        id={character.id}
-                        name={character.name}
-                        status={character.status}
-                        species={character.species}
-                        type={character.type}
-                        gender={character.gender}
-                        origin={character.origin}
-                        location={character.location}
-                        image={character.image}
-                        episode={character.episode}
-                        url={character.url}
-                        created={character.created}
-                      />
-                    ))}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div>
-        ))}
+        <div>
+          {Object.keys(localLocation).length === 0 ? (
+            <p>No locations found.</p>
+          ) : (
+            Object.keys(localLocation).map((key) => (
+              <div key={key}>
+                <Accordion type="single" collapsible className="w-full items-stretch">
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger>{key}</AccordionTrigger>
+                    <AccordionContent>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-stretch gap-4 m-4">
+                        {localLocation[key].map((character: CharacterObject) => (
+                          <CharacterCard
+                            key={character.id}
+                            id={character.id}
+                            name={character.name}
+                            status={character.status}
+                            species={character.species}
+                            type={character.type}
+                            gender={character.gender}
+                            origin={character.origin}
+                            location={character.location}
+                            image={character.image}
+                            episode={character.episode}
+                            url={character.url}
+                            created={character.created}
+                          />
+                        ))}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </>
   );
